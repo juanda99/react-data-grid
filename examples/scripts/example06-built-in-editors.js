@@ -1,5 +1,6 @@
-var QuickStartDescription = require('../components/QuickStartDescription')
+var QuickStartDescription = require('../components/QuickStartDescription');
 var ReactPlayground       = require('../assets/js/ReactPlayground');
+var sample                     = require('lodash.sample');
 
 var EditableExample = `
 
@@ -13,10 +14,33 @@ var issueTypes = ['Bug', 'Improvement', 'Epic', 'Story'];
 var DropDownEditor = ReactDataGrid.Editors.DropDownEditor;
 var IssueTypesEditor = <DropDownEditor options={issueTypes}/>
 
+//options for categories react-select editor
+var team = ['Mike', 'Peter', 'John', 'Susan', 'Helen', 'Tom', 'Adele'];
+var TokensEditor = ReactDataGrid.Editors.TokensEditor;
+var TeamEditor = <TokensEditor options={team}/>
+
+
+var priorities = [{id:0, title : 'Critical'}, {id:1, title : 'High'}, {id:2, title : 'Medium'}, {id:3, title : 'Low'}]
+var AutoCompleteEditor = ReactDataGrid.Editors.AutoComplete;
+var PrioritiesEditor = <AutoCompleteEditor options={priorities}/>
+
 //helper to generate a random date
 function randomDate(start, end) {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleDateString();
 }
+
+//helper to generate random subarray
+function getRandomSubarray(arr, size) {
+    var shuffled = arr.slice(0), i = arr.length, min = i - size, temp, index;
+    while (i-- > min) {
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
+    }
+    return shuffled.slice(min);
+}
+
 
 //helper to create a fixed number of rows
 function createRows(numberOfRows){
@@ -29,7 +53,8 @@ function createRows(numberOfRows){
       priority : ['Critical', 'High', 'Medium', 'Low'][Math.floor((Math.random() * 3) + 1)],
       issueType : issueTypes[Math.floor((Math.random() * 3) + 1)],
       startDate: randomDate(new Date(2015, 3, 1), new Date()),
-      completeDate: randomDate(new Date(), new Date(2016, 0, 1))
+      completeDate: randomDate(new Date(), new Date(2016, 0, 1)),
+      team: getRandomSubarray(team, 2)
     });
   }
   return _rows;
@@ -61,6 +86,11 @@ var columns = [
   key : 'issueType',
   name : 'Issue Type',
   editor : IssueTypesEditor
+},
+{
+  key: 'team',
+  name: 'People in charge',
+  editor: TeamEditor
 }
 ]
 
