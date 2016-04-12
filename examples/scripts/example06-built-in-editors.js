@@ -1,6 +1,5 @@
 var QuickStartDescription = require('../components/QuickStartDescription');
 var ReactPlayground       = require('../assets/js/ReactPlayground');
-var sample                     = require('lodash.sample');
 
 var EditableExample = `
 
